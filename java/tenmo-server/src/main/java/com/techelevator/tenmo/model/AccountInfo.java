@@ -23,12 +23,6 @@ public class AccountInfo {
         this.userId = userId;
     }
 
-    @Override
-    public String toString() {
-        return "AccountInfo{" +
-                "balance=" + balance +
-                ", userId=" + userId +
-                '}';
+
     }
-}
 

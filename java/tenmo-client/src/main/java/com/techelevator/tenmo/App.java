@@ -3,13 +3,17 @@ package com.techelevator.tenmo;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.AccountInfo;
 import com.techelevator.tenmo.model.UserCredentials;
+import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.AuthenticationServiceException;
 import com.techelevator.view.ConsoleService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+
+import java.math.BigDecimal;
 
 public class App {
 
@@ -31,16 +35,17 @@ private static final String API_BASE_URL = "http://localhost:8080/";
     private ConsoleService console;
     private AuthenticationService authenticationService;
     private RestTemplate restTemplate;
+    private AccountService accountService;
 
     public static void main(String[] args) {
-    	App app = new App(new ConsoleService(System.in, System.out), new AuthenticationService(API_BASE_URL));
+    	App app = new App(new AccountService(API_BASE_URL), new ConsoleService(System.in, System.out), new AuthenticationService(API_BASE_URL));
     	app.run();
     }
 
-    public App(ConsoleService console, AuthenticationService authenticationService) {
+    public App(AccountService accountService, ConsoleService console, AuthenticationService authenticationService) {
 		this.console = console;
 		this.authenticationService = authenticationService;
-
+		this.accountService = accountService;
 		this.restTemplate = new RestTemplate();
 	}
 
@@ -77,15 +82,9 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 
 	private void viewCurrentBalance() {
 		// TODO Auto-generated method stub
-		System.out.println(currentUser.getToken());
+		BigDecimal currentBalance = accountService.getBalance(currentUser.getToken());
+		System.out.println("Your current balance is: $" + currentBalance);
 
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setBearerAuth(currentUser.getToken());
-		HttpEntity entity = new HttpEntity(httpHeaders);
-		AccountInfo balance = restTemplate.exchange("http://localhost:8080/balance",
-				HttpMethod.GET, entity, AccountInfo.class).getBody();
-
-		System.out.println("Your current balance is: " + balance);
 	}
 
 	private void viewTransferHistory() {
@@ -100,6 +99,9 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 
 	private void sendBucks() {
 		// TODO Auto-generated method stub
+
+
+
 		
 	}
 
