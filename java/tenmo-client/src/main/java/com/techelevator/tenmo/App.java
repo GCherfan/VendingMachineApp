@@ -1,7 +1,7 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.Balance;
+import com.techelevator.tenmo.model.AccountInfo;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.AuthenticationServiceException;
@@ -82,10 +82,10 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setBearerAuth(currentUser.getToken());
 		HttpEntity entity = new HttpEntity(httpHeaders);
-		Balance balance = restTemplate.exchange("http://localhost:8080/balance",
-				HttpMethod.GET, entity, Balance.class).getBody();
+		AccountInfo balance = restTemplate.exchange("http://localhost:8080/balance",
+				HttpMethod.GET, entity, AccountInfo.class).getBody();
 
-		System.out.println(balance);
+		System.out.println("Your current balance is: " + balance);
 	}
 
 	private void viewTransferHistory() {
