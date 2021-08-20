@@ -2,10 +2,12 @@ package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.AccountInfo;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.AuthenticationServiceException;
+import com.techelevator.tenmo.services.TransferService;
 import com.techelevator.view.ConsoleService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -14,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class App {
 
@@ -36,16 +40,18 @@ private static final String API_BASE_URL = "http://localhost:8080/";
     private AuthenticationService authenticationService;
     private RestTemplate restTemplate;
     private AccountService accountService;
+    private TransferService transferService;
 
     public static void main(String[] args) {
-    	App app = new App(new AccountService(API_BASE_URL), new ConsoleService(System.in, System.out), new AuthenticationService(API_BASE_URL));
+    	App app = new App(new AccountService(API_BASE_URL), new TransferService(API_BASE_URL), new ConsoleService(System.in, System.out), new AuthenticationService(API_BASE_URL));
     	app.run();
     }
 
-    public App(AccountService accountService, ConsoleService console, AuthenticationService authenticationService) {
+    public App(AccountService accountService, TransferService transferService, ConsoleService console, AuthenticationService authenticationService) {
 		this.console = console;
 		this.authenticationService = authenticationService;
 		this.accountService = accountService;
+		this.transferService = transferService;
 		this.restTemplate = new RestTemplate();
 	}
 
@@ -89,6 +95,8 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 
 	private void viewTransferHistory() {
 		// TODO Auto-generated method stub
+
+
 		
 	}
 
@@ -99,10 +107,14 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 
 	private void sendBucks() {
 		// TODO Auto-generated method stub
+		User[] listOfUsers = transferService.listOfUsers(currentUser.getToken());
+		for (User user : listOfUsers){
+			System.out.println(user.getId()+" " + user.getUsername());
 
-
-
-		
+			//prompt user for userId - validate that it is a valid userId
+			// after validated, ask for amount of transfer
+			// then call transferService.transfer -- passing toUserId, amount, and probably the authToken as well
+		}
 	}
 
 	private void requestBucks() {

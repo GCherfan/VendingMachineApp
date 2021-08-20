@@ -18,6 +18,7 @@ public class JdbcAccountDAO implements AccountDAO{
         this.jdbcTemplate = new JdbcTemplate(ds);
     }
 
+    //GET USERS AND BALANCE
     @Override
     public AccountInfo getBalance(int userId) {
         AccountInfo currentBalance = new AccountInfo();

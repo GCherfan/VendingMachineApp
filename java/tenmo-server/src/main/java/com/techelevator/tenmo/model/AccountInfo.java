@@ -23,6 +23,11 @@ public class AccountInfo {
         this.userId = userId;
     }
 
+    public void transfer(AccountInfo account, BigDecimal amount){
+
+
+    }
+
 
     }
 
