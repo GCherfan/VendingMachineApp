@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 import java.math.BigDecimal;
 
 @Component
-public class JdbcTransferDAO {
+public class JdbcTransferDAO implements TransferDAO {
 
     private JdbcTemplate jdbcTemplate;
 
@@ -20,16 +20,17 @@ public class JdbcTransferDAO {
     }
 
 
+    @Override
     public void userTransfers(Transfers transfers){
-        String sql = "INSERT INTO transfers\n" +
-                "(transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount)\n" +
-                "VALUES (1, 1, 1, ?, ?, ?)";
+        String sql = "INSERT INTO transfers " +
+                "(transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
+                "VALUES (1, 1, ?, ?, ?)";
         jdbcTemplate.update(sql, transfers.getAccountFrom(),
                 transfers.getAccountTo(), transfers.getTransferAmount());
 
         /*UPDATE accounts
-SET balance = ?
-WHERE account_id = ? */
+            SET balance = ?
+            WHERE account_id = ? */
 
     }
 
