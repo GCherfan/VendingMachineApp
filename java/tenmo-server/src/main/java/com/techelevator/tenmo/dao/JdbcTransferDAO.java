@@ -25,10 +25,6 @@ public class JdbcTransferDAO implements TransferDAO {
     @Override
     public void userTransfers(Transfers transfers){
 
-        System.out.println("ANDY DEBUG ******");
-        System.out.println("AccountTo:" + transfers.getAccountTo());
-        System.out.println("AccountFROM:" + transfers.getAccountFrom());
-
         // call the method that we defined underneath twice to get the correct
         // to and from account id's
 
@@ -41,11 +37,11 @@ public class JdbcTransferDAO implements TransferDAO {
         jdbcTemplate.update(sql, accountFrom, accountTo, transfers.getTransferAmount());
 
         //UPDATE ACCOUNT TO
-        String sqlAccountTo = "UPDATE accounts SET balance = ? WHERE account_id = ?";
-
+        //String sqlAccountTo = "UPDATE accounts SET balance = ? WHERE account_id = ?";
+        accountDAO.addToBalance(transfers.getTransferAmount(), accountTo);
         //UPDATE ACCOUNT FROM
-        String sqlAccountFrom = "UPDATE accounts SET balance = ? WHERE account_id = ?";
-
+        //String sqlAccountFrom = "UPDATE accounts SET balance = ? WHERE account_id = ?";
+        accountDAO.subtractFromBalance(transfers.getTransferAmount(), accountFrom);
 
     }
 

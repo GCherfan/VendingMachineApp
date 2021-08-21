@@ -11,8 +11,8 @@ public interface AccountDAO {
 
     //UPDATE BALANCES
         //ADD
-    public double addToBalance(double addBalance, int accountId);
+     BigDecimal addToBalance(BigDecimal addBalance, int accountId);
         //SUBTRACT
-    public double subtractFromBalance(double subtractBalance, int accountId);
+     BigDecimal subtractFromBalance(BigDecimal subtractBalance, int accountId);
 
 }
