@@ -31,7 +31,7 @@ public class TransferService {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setBearerAuth(token);
             httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity entity = new HttpEntity(httpHeaders);
-            restTemplate.exchange(BASE_URL + "/transfers", HttpMethod.POST, entity, Transfer.class);
+            HttpEntity<Transfer> entity = new HttpEntity(transfer, httpHeaders);
+            restTemplate.postForObject(BASE_URL + "/transfers", entity, Transfer.class);
         }
 }
