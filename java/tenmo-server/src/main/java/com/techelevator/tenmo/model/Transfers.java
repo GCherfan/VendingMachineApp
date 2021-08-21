@@ -4,26 +4,26 @@ import java.math.BigDecimal;
 
 public class Transfers {
 
-    private Long transferId;
-    private Long transferTypeId;
-    private Long transferStatusId;
-    private Long accountTo;
-    private Long accountFrom;
+    private int transferId;
+    private int transferTypeId;
+    private int transferStatusId;
+    private int accountTo;
+    private int accountFrom;
     private BigDecimal transferAmount;
 
     //CONSTRUCTOR
-    public Transfers(Long transferId, Long transferTypeId, Long transferStatusId, Long accountTo, Long accountFrom, BigDecimal transferAmount) {
+    /*public Transfers(int transferId, int transferTypeId, int transferStatusId, int accountTo, int accountFrom, BigDecimal transferAmount) {
         this.transferId = transferId;
         this.transferTypeId = transferTypeId;
         this.transferStatusId = transferStatusId;
         this.accountTo = accountTo;
         this.accountFrom = accountFrom;
         this.transferAmount = transferAmount;
-    }
+    }*/
 
-    public Transfers(Long accountTo, Long accountFrom, BigDecimal amount) {
-        this.transferTypeId = 1L;
-        this.transferStatusId = 1L;
+    public Transfers(int accountTo, int accountFrom, BigDecimal amount) {
+        this.transferTypeId = 1;
+        this.transferStatusId = 1;
         this.accountTo = accountTo;
         this.accountFrom = accountFrom;
         this.transferAmount = amount;
@@ -31,43 +31,43 @@ public class Transfers {
     }
 
     //GETTERS AND SETTERS
-    public Long getTransferId() {
+    public int getTransferId() {
         return transferId;
     }
 
-    public void setTransferId(Long transferId) {
+    public void setTransferId(int transferId) {
         this.transferId = transferId;
     }
 
-    public Long getTransferTypeId() {
+    public int getTransferTypeId() {
         return transferTypeId;
     }
 
-    public void setTransferTypeId(Long transferTypeId) {
+    public void setTransferTypeId(int transferTypeId) {
         this.transferTypeId = transferTypeId;
     }
 
-    public Long getTransferStatusId() {
+    public int getTransferStatusId() {
         return transferStatusId;
     }
 
-    public void setTransferStatusId(Long transferStatusId) {
+    public void setTransferStatusId(int transferStatusId) {
         this.transferStatusId = transferStatusId;
     }
 
-    public Long getAccountTo() {
+    public int getAccountTo() {
         return accountTo;
     }
 
-    public void setAccountTo(Long accountTo) {
+    public void setAccountTo(int accountTo) {
         this.accountTo = accountTo;
     }
 
-    public Long getAccountFrom() {
+    public int getAccountFrom() {
         return accountFrom;
     }
 
-    public void setAccountFrom(Long accountFrom) {
+    public void setAccountFrom(int accountFrom) {
         this.accountFrom = accountFrom;
     }
 

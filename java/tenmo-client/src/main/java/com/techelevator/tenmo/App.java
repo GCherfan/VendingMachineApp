@@ -109,9 +109,9 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 			System.out.println(user.getId()+" " + user.getUsername());
 
 			//prompt user for userId - validate that it is a valid userId
-			Integer userId = console.getUserInputInteger("Enter user id:");
+			Integer userId = console.getUserInputInteger("Enter user id");
 			// after validated, ask for amount of transfer
-			Integer transferAmount = console.getUserInputInteger("Enter amount to transfer:");
+			Integer transferAmount = console.getUserInputInteger("Enter amount to transfer");
 			// then call transferService.transfer -- passing toUserId, amount, and probably the authToken as well
 			Transfer transfer = new Transfer(userId, currentUser.getUser().getId(), BigDecimal.valueOf(transferAmount));
 			transferService.createTransfer(transfer, currentUser.getToken());

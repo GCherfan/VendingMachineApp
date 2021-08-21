@@ -6,6 +6,6 @@ import java.math.BigDecimal;
 
 public interface TransferDAO {
 
-    void userTransfers(Transfers transfers);
+    void userTransfers(Transfers transfer);
 
 }

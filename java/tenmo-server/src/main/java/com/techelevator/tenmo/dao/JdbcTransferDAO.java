@@ -13,10 +13,12 @@ import java.math.BigDecimal;
 public class JdbcTransferDAO implements TransferDAO {
 
     private JdbcTemplate jdbcTemplate;
+    private AccountDAO accountDAO;
 
     //constructor
-    public JdbcTransferDAO(JdbcTemplate jdbcTemplate){
+    public JdbcTransferDAO(JdbcTemplate jdbcTemplate, AccountDAO accountDAO){
         this.jdbcTemplate = jdbcTemplate;
+        this.accountDAO = accountDAO;
     }
 
 
@@ -37,11 +39,11 @@ public class JdbcTransferDAO implements TransferDAO {
     //HELPER METHOD
     private Transfers mapRowToTransfers(SqlRowSet rowSet){
         Transfers transfers = new Transfers(
-                rowSet.getLong("transfer_id"),
-                rowSet.getLong("transfer_type_id"),
-                rowSet.getLong("transfer_status_id"),
-                rowSet.getLong("account_from"),
-                rowSet.getLong("account_to"),
+                //rowSet.getInt("transfer_id"),
+                //rowSet.getInt("transfer_type_id"),
+                //rowSet.getInt("transfer_status_id"),
+                rowSet.getInt("account_from"),
+                rowSet.getInt("account_to"),
                 rowSet.getBigDecimal("amount")
         );
         return transfers;
