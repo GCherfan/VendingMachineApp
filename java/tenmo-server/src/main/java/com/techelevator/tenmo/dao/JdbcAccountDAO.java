@@ -31,6 +31,16 @@ public class JdbcAccountDAO implements AccountDAO{
         return currentBalance;
     }
 
+    @Override
+    public double addToBalance(double addBalance, int accountId) {
+        AccountInfo updateAccountBalance = getBalance(accountId);
+    }
+
+    @Override
+    public double subtractFromBalance(double subtractBalance, int account) {
+        return 0;
+    }
+
     // HELPER METHOD
     private AccountInfo mapRowToBalance(SqlRowSet results){
         AccountInfo userAccount = new AccountInfo();

@@ -47,8 +47,6 @@ public class JdbcTransferDAO implements TransferDAO {
         String sqlAccountFrom = "UPDATE accounts SET balance = ? WHERE account_id = ?";
 
 
-       int newBalance = accountDAO.getBalance(accountFrom) - transfers.getTransferAmount()
-
     }
 
     public int getAccountIdFromUserId (int userId) {
