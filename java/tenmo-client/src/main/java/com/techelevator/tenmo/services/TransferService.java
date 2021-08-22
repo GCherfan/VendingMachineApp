@@ -34,4 +34,13 @@ public class TransferService {
             HttpEntity<Transfer> entity = new HttpEntity(transfer, httpHeaders);
             restTemplate.postForObject(BASE_URL + "/transfers", entity, Transfer.class);
         }
+
+        public Transfer[] transferHistory(String token){
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setBearerAuth(token);
+            HttpEntity entity = new HttpEntity(httpHeaders);
+            ResponseEntity<Transfer[]> transferList = restTemplate.exchange(BASE_URL + "/transfers/history",
+                    HttpMethod.GET, entity, Transfer[].class);
+            return transferList.getBody();
+        }
 }

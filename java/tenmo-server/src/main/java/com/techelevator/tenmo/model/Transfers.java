@@ -12,14 +12,14 @@ public class Transfers {
     private BigDecimal transferAmount;
 
     //CONSTRUCTOR
-    /*public Transfers(int transferId, int transferTypeId, int transferStatusId, int accountTo, int accountFrom, BigDecimal transferAmount) {
+    public Transfers(int transferId, int transferTypeId, int transferStatusId, int accountTo, int accountFrom, BigDecimal transferAmount) {
         this.transferId = transferId;
         this.transferTypeId = transferTypeId;
         this.transferStatusId = transferStatusId;
         this.accountTo = accountTo;
         this.accountFrom = accountFrom;
         this.transferAmount = transferAmount;
-    }*/
+    }
 
     public Transfers(int accountTo, int accountFrom, BigDecimal amount) {
         this.transferTypeId = 1;

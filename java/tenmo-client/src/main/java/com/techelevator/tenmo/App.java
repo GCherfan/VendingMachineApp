@@ -92,9 +92,12 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 
 	private void viewTransferHistory() {
 		// TODO Auto-generated method stub
-
-
-		
+		Transfer[] transferHistoryList = transferService.transferHistory(currentUser.getToken());
+		for (Transfer transfers : transferHistoryList){
+			System.out.println(transfers.getTransferId() + transfers.getTransferTypeId() + transfers.getTransferStatusId()
+			+ transfers.getAccountTo() + transfers.getAccountFrom());
+		}
+		//System.out.println(transferHistoryList);
 	}
 
 	private void viewPendingRequests() {
@@ -104,19 +107,34 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 
 	private void sendBucks() {
 		// TODO Auto-generated method stub
+		BigDecimal currentUserAccount = accountService.getBalance(currentUser.getToken());
+
+		//LIST OF USERS
+		System.out.println("-------------------------------------------\n" +
+				"User ID          Name\n" +
+				"-------------------------------------------");
 		User[] listOfUsers = transferService.listOfUsers(currentUser.getToken());
 		for (User user : listOfUsers){
-			System.out.println(user.getId()+" " + user.getUsername());
+			System.out.println(user.getId()+"             " + user.getUsername());
 		}
+		System.out.println("-------------------------------------------\n");
 
-			//prompt user for userId - validate that it is a valid userId
+		//PROMPT FOR USER ID
 			Integer userId = console.getUserInputInteger("Enter ID of user you are sending money to");
-			// after validated, ask for amount of transfer
-			Integer transferAmount = console.getUserInputInteger("Enter amount to transfer");
-			// then call transferService.transfer -- passing toUserId, amount, and probably the authToken as well
-			Transfer transfer = new Transfer(userId, currentUser.getUser().getId(), BigDecimal.valueOf(transferAmount));
-			transferService.createTransfer(transfer, currentUser.getToken());
-
+		//PROMPT FOR AMOUNT TO TRANSFER
+	    	// if(listOfUsers.toString().contains(userId.toString())){
+				Integer transferAmount = console.getUserInputInteger("Enter amount to transfer");
+		//CHECK FOR SUFFICIENT FUNDS
+				if(currentUserAccount.compareTo(BigDecimal.valueOf(transferAmount)) >= 0){
+					Transfer transfer = new Transfer(userId, currentUser.getUser().getId(), BigDecimal.valueOf(transferAmount));
+					transferService.createTransfer(transfer, currentUser.getToken());
+					System.out.println("\n\n**** Transfer Successful ****");
+				} else {
+					System.out.println("\n\n**** Insufficient funds. Transfer cannot be completed ****");
+				}
+			//} else {
+				//System.out.println("\n\n**** Invalid User Id. Please try again ****");
+			//}
 	}
 
 	private void requestBucks() {

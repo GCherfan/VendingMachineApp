@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class JdbcTransferDAO implements TransferDAO {
@@ -15,7 +17,7 @@ public class JdbcTransferDAO implements TransferDAO {
     private JdbcTemplate jdbcTemplate;
     private AccountDAO accountDAO;
 
-    //constructor
+    //CONSTRUCTOR
     public JdbcTransferDAO(JdbcTemplate jdbcTemplate, AccountDAO accountDAO){
         this.jdbcTemplate = jdbcTemplate;
         this.accountDAO = accountDAO;
@@ -25,12 +27,11 @@ public class JdbcTransferDAO implements TransferDAO {
     @Override
     public void userTransfers(Transfers transfers){
 
-        // call the method that we defined underneath twice to get the correct
-        // to and from account id's
-
+        //CALL HELPER METHOD TWICE TO GET CORRECT TO AND FROM ACCOUNT IDS
         int accountFrom = getAccountIdFromUserId(transfers.getAccountFrom());
         int accountTo = getAccountIdFromUserId(transfers.getAccountTo());
 
+        //CREATE TRANSFER
         String sql = "INSERT INTO transfers " +
                 "(transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
                 "VALUES (1, 1, ?, ?, ?)";
@@ -45,23 +46,33 @@ public class JdbcTransferDAO implements TransferDAO {
 
     }
 
-    public int getAccountIdFromUserId (int userId) {
+    @Override
+    public List<Transfers> seeTransferHistory() {
+        List<Transfers> transferHistory = new ArrayList<Transfers>();
+        String sql = "SELECT * FROM transfers";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql);
+        while(result.next()){
+            //Transfers transfers = mapRowToTransfers(result);
+            transferHistory.add(mapRowToTransfers(result));
+        }
+            return transferHistory;
+    }
 
-        // 1. make a sql that retrieves the account id given the user id;
-        String sql = "select account_id from accounts where user_id = ?";
+
+
+    //HELPER METHODS
+    public int getAccountIdFromUserId (int userId) {
+        //SQL STATEMENT THAT RETRIEVE ACCOUNT ID GIVEN USER ID
+        String sql = "SELECT account_id FROM accounts WHERE user_id = ?";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId);
 
-        int accountId = -1;
-
+        int accountId = -1; //create accountId that will never be true
         if (result.next()) {
             accountId = result.getInt("account_id");
         }
-
         return accountId;
-
     }
 
-    //HELPER METHOD
     private Transfers mapRowToTransfers(SqlRowSet rowSet){
         Transfers transfers = new Transfers(
                 //rowSet.getInt("transfer_id"),

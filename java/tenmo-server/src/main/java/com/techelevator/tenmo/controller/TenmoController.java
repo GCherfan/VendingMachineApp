@@ -51,4 +51,11 @@ public class TenmoController {
         transferDAO.userTransfers(transfers);
     }
 
+    @RequestMapping(path = "/transfers/history", method = RequestMethod.GET)
+    public List<Transfers> seeTransferHistory(){
+        List<Transfers> transfersList = new ArrayList<>();
+        transfersList = transferDAO.seeTransferHistory();
+        return transfersList;
+    }
+
 }
