@@ -11,4 +11,6 @@ public interface TransferDAO {
 
     List<Transfers> seeTransferHistory();
 
+    Transfers getDetailsByTransferId(long transferId);
+
 }

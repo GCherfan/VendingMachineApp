@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class App {
 
@@ -92,12 +93,32 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 
 	private void viewTransferHistory() {
 		// TODO Auto-generated method stub
-		Transfer[] transferHistoryList = transferService.transferHistory(currentUser.getToken());
-		for (Transfer transfers : transferHistoryList){
-			System.out.println(transfers.getTransferId() + transfers.getTransferTypeId() + transfers.getTransferStatusId()
-			+ transfers.getAccountTo() + transfers.getAccountFrom());
+		Integer userSelection = console.getUserInputInteger("SELECT 1 to see all transfer history or SELECT 2 " +
+				"to view specific transfer details");
+		if(userSelection == 1){
+			System.out.println("\n-------------------------------------------\n" +
+					"Transfer \n" +
+					"ID          From        To         Amount\n" +
+					"-------------------------------------------");
+
+			Transfer transfer = new Transfer();
+			Transfer[] transferHistoryList = transferService.transferHistory(transfer, currentUser.getToken());
+			for (Transfer transfers : transferHistoryList){
+				System.out.println(transfers.getTransferId() + "        " + transfers.getAccountFrom() +"        "+
+						transfers.getAccountTo() + "       $" + transfers.getTransferAmount());
+			}
+		} else {
+			Integer userInput = console.getUserInputInteger("Please enter the Transfer Id for the transfer details" +
+					" you would like to view");
+			Transfer transfer = new Transfer();
+			transfer = transferService.getDetailsByTransferId(currentUser.getToken(), userInput.longValue());
+			System.out.println("\n--------------------------------------------\n" +
+					"Transfer Details\n" +
+					"--------------------------------------------");
+			System.out.println(transfer.toString());
 		}
-		//System.out.println(transferHistoryList);
+
+
 	}
 
 	private void viewPendingRequests() {
@@ -108,9 +129,8 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 	private void sendBucks() {
 		// TODO Auto-generated method stub
 		BigDecimal currentUserAccount = accountService.getBalance(currentUser.getToken());
-
 		//LIST OF USERS
-		System.out.println("-------------------------------------------\n" +
+		System.out.println("\n-------------------------------------------\n" +
 				"User ID          Name\n" +
 				"-------------------------------------------");
 		User[] listOfUsers = transferService.listOfUsers(currentUser.getToken());

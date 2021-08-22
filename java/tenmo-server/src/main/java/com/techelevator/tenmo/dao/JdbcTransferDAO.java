@@ -48,21 +48,30 @@ public class JdbcTransferDAO implements TransferDAO {
 
     @Override
     public List<Transfers> seeTransferHistory() {
-        List<Transfers> transferHistory = new ArrayList<Transfers>();
+        List<Transfers> transferHistory = new ArrayList<>();
         String sql = "SELECT * FROM transfers";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql);
         while(result.next()){
-            //Transfers transfers = mapRowToTransfers(result);
             transferHistory.add(mapRowToTransfers(result));
         }
             return transferHistory;
     }
 
+    @Override
+    public Transfers getDetailsByTransferId(long transferId) {
+        Transfers transfer = new Transfers();
+        String sql = "SELECT * FROM transfers WHERE transfer_id = ?";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, transferId);
+        while(result.next()){
+            transfer = mapRowToTransfers(result);
+        }
+        return transfer;
+    }
 
 
     //HELPER METHODS
     public int getAccountIdFromUserId (int userId) {
-        //SQL STATEMENT THAT RETRIEVE ACCOUNT ID GIVEN USER ID
+        //SQL STATEMENT THAT RETRIEVES ACCOUNT ID GIVEN USER ID
         String sql = "SELECT account_id FROM accounts WHERE user_id = ?";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId);
 
@@ -75,9 +84,9 @@ public class JdbcTransferDAO implements TransferDAO {
 
     private Transfers mapRowToTransfers(SqlRowSet rowSet){
         Transfers transfers = new Transfers(
-                //rowSet.getInt("transfer_id"),
-                //rowSet.getInt("transfer_type_id"),
-                //rowSet.getInt("transfer_status_id"),
+                rowSet.getInt("transfer_id"),
+                rowSet.getInt("transfer_type_id"),
+                rowSet.getInt("transfer_status_id"),
                 rowSet.getInt("account_from"),
                 rowSet.getInt("account_to"),
                 rowSet.getBigDecimal("amount")

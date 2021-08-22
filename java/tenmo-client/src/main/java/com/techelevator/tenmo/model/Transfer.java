@@ -12,7 +12,7 @@ public class Transfer {
     private BigDecimal transferAmount;
 
     //CONSTRUCTOR
-    public Transfer(Long transferId, Long transferTypeId, Long transferStatusId, int accountTo, int accountFrom, BigDecimal transferAmount) {
+    public Transfer(Long transferId, int accountTo, int accountFrom, BigDecimal transferAmount) {
         this.transferId = transferId;
         this.transferTypeId = transferTypeId;
         this.transferStatusId = transferStatusId;
@@ -29,6 +29,8 @@ public class Transfer {
         this.transferAmount = amount;
 
     }
+
+    public Transfer(){}
 
     //GETTERS AND SETTERS
     public Long getTransferId() {
@@ -81,13 +83,11 @@ public class Transfer {
 
     @Override
     public String toString() {
-        return "Transfers{" +
-                "transferId=" + transferId +
-                ", transferTypeId=" + transferTypeId +
-                ", transferStatusId=" + transferStatusId +
-                ", accountTo=" + accountTo +
-                ", accountFrom=" + accountFrom +
-                ", transferAmount=" + transferAmount +
-                '}';
+        return "Id: " + transferId  + "\n" +
+                "From: " + accountFrom + "\n" +
+                "To: " + accountTo + "\n" +
+                "Type: " + transferTypeId + "\n" +
+                "Status: " + "Approved\n" +
+                "Amount: $" + transferAmount;
     }
 }

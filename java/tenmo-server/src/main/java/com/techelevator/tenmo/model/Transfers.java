@@ -27,8 +27,9 @@ public class Transfers {
         this.accountTo = accountTo;
         this.accountFrom = accountFrom;
         this.transferAmount = amount;
-
     }
+
+    public Transfers(){}
 
     //GETTERS AND SETTERS
     public int getTransferId() {
