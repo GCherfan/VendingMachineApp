@@ -9,8 +9,10 @@ public interface TransferDAO {
 
     void userTransfers(Transfers transfer);
 
+    //TRANSFER HISTORY
     List<Transfers> seeTransferHistory();
 
+    //DETAILED TRANSFER BY ID
     Transfers getDetailsByTransferId(long transferId);
 
 }

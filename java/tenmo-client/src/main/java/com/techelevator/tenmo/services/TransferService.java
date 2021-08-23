@@ -19,12 +19,8 @@ public class TransferService {
         }
 
        public User[] listOfUsers(String token){
-            //List<User> userList = new ArrayList<User>();
-           HttpHeaders httpHeaders = new HttpHeaders();
-           httpHeaders.setBearerAuth(token);
-           HttpEntity entity = new HttpEntity(httpHeaders);
            ResponseEntity<User[]> userList = restTemplate.exchange(BASE_URL + "/users",
-                   HttpMethod.GET, entity, User[].class);
+                   HttpMethod.GET, httpEntity(token), User[].class);
            return userList.getBody();
         }
 
@@ -36,21 +32,23 @@ public class TransferService {
             restTemplate.postForObject(BASE_URL + "/transfers", entity, Transfer.class);
         }
 
-        public Transfer[] transferHistory(Transfer transfer, String token){
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setBearerAuth(token);
-            HttpEntity entity = new HttpEntity(transfer, httpHeaders);
+        public Transfer[] transferHistory(String token){
             ResponseEntity<Transfer[]> transferList = restTemplate.exchange(BASE_URL + "/transfers/history",
-                    HttpMethod.GET, entity, Transfer[].class);
+                    HttpMethod.GET, httpEntity(token), Transfer[].class);
             return transferList.getBody();
         }
 
         public Transfer getDetailsByTransferId(String token, Long transferId){
+            ResponseEntity<Transfer> transferDetail = restTemplate.exchange(BASE_URL + "/transfers/history/" + transferId, HttpMethod.GET,
+                    httpEntity(token), Transfer.class);
+            return  transferDetail.getBody();
+        }
+
+        //HTTP ENTITY HELPER METHOD
+        private HttpEntity httpEntity(String token){
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setBearerAuth(token);
             HttpEntity entity = new HttpEntity(httpHeaders);
-            ResponseEntity<Transfer> transferDetail = restTemplate.exchange(BASE_URL + "/transfers/history/" + transferId, HttpMethod.GET,
-                    entity, Transfer.class);
-            return  transferDetail.getBody();
+            return entity;
         }
 }

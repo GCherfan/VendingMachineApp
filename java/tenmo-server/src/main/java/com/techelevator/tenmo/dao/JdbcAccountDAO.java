@@ -13,7 +13,6 @@ public class JdbcAccountDAO implements AccountDAO{
 
     private JdbcTemplate jdbcTemplate;
 
-    //constructor
     public JdbcAccountDAO(DataSource ds){
         this.jdbcTemplate = new JdbcTemplate(ds);
     }
@@ -58,27 +57,22 @@ public class JdbcAccountDAO implements AccountDAO{
 
     // HELPER METHOD
     public int getUserIdFromAccountId (int accountId) {
-
         String sql = "SELECT users.user_id " +
                 "FROM users " +
                 "JOIN accounts ON users.user_id = accounts.user_id " +
                 "WHERE account_id = ?";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, accountId);
-
-        int userId = -1;
-
+        int userId = -1; //create user id that will never be true
         if (result.next()) {
             userId = result.getInt("user_id");
         }
-
         return userId;
-
     }
 
-    private AccountInfo mapRowToBalance(SqlRowSet results){
+    private AccountInfo mapRowToBalance(SqlRowSet rowSet){
         AccountInfo userAccount = new AccountInfo();
-        userAccount.setBalance(results.getBigDecimal("balance"));
-        userAccount.setUserId(results.getInt("user_id"));
+        userAccount.setBalance(rowSet.getBigDecimal("balance"));
+        userAccount.setUserId(rowSet.getInt("user_id"));
         return userAccount;
     }
 }

@@ -37,9 +37,7 @@ public class TenmoController {
     //LIST OF USERS TO TRANSFER
     @RequestMapping(path = "/users", method = RequestMethod.GET)
     public List<User> listAll(){
-        List<User> userList = new ArrayList<>();
-        userList = userDao.findAll();
-        return userList;
+        return userDao.findAll();
     }
 
     //TRANSFERS
@@ -57,8 +55,7 @@ public class TenmoController {
 
     @RequestMapping(path = "/transfers/history/{transferId}", method = RequestMethod.GET)
     public Transfers detailsByTransferId(@PathVariable long transferId){
-        Transfers transfer = transferDAO.getDetailsByTransferId(transferId);
-        return transfer;
+        return transferDAO.getDetailsByTransferId(transferId);
     }
 
 }

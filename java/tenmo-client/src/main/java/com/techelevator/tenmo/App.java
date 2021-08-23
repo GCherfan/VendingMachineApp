@@ -91,34 +91,35 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 
 	}
 
+
 	private void viewTransferHistory() {
 		// TODO Auto-generated method stub
+
+		//PROMPT USER TO VIEW ALL HISTORY OR DETAILED TRANSFER
 		Integer userSelection = console.getUserInputInteger("SELECT 1 to see all transfer history or SELECT 2 " +
 				"to view specific transfer details");
 		if(userSelection == 1){
+			//ALL HISTORY
 			System.out.println("\n-------------------------------------------\n" +
-					"Transfer \n" +
-					"ID          From        To         Amount\n" +
-					"-------------------------------------------");
-
-			Transfer transfer = new Transfer();
-			Transfer[] transferHistoryList = transferService.transferHistory(transfer, currentUser.getToken());
+								"Transfer \n" +
+								"ID          From        To         Amount\n" +
+								"-------------------------------------------");
+			Transfer[] transferHistoryList = transferService.transferHistory(currentUser.getToken());
 			for (Transfer transfers : transferHistoryList){
 				System.out.println(transfers.getTransferId() + "        " + transfers.getAccountFrom() +"        "+
 						transfers.getAccountTo() + "       $" + transfers.getTransferAmount());
 			}
 		} else {
+			//DETAILED TRANSFER
 			Integer userInput = console.getUserInputInteger("Please enter the Transfer Id for the transfer details" +
 					" you would like to view");
 			Transfer transfer = new Transfer();
 			transfer = transferService.getDetailsByTransferId(currentUser.getToken(), userInput.longValue());
 			System.out.println("\n--------------------------------------------\n" +
-					"Transfer Details\n" +
-					"--------------------------------------------");
+								"Transfer Details\n" +
+								"--------------------------------------------");
 			System.out.println(transfer.toString());
 		}
-
-
 	}
 
 	private void viewPendingRequests() {
@@ -142,7 +143,6 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 		//PROMPT FOR USER ID
 			Integer userId = console.getUserInputInteger("Enter ID of user you are sending money to");
 		//PROMPT FOR AMOUNT TO TRANSFER
-	    	// if(listOfUsers.toString().contains(userId.toString())){
 				Integer transferAmount = console.getUserInputInteger("Enter amount to transfer");
 		//CHECK FOR SUFFICIENT FUNDS
 				if(currentUserAccount.compareTo(BigDecimal.valueOf(transferAmount)) >= 0){
@@ -152,10 +152,7 @@ private static final String API_BASE_URL = "http://localhost:8080/";
 				} else {
 					System.out.println("\n\n**** Insufficient funds. Transfer cannot be completed ****");
 				}
-			//} else {
-				//System.out.println("\n\n**** Invalid User Id. Please try again ****");
-			//}
-	}
+			}
 
 	private void requestBucks() {
 		// TODO Auto-generated method stub
